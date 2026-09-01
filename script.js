@@ -20,6 +20,14 @@
     document.body.classList.toggle('menu-open', open);
   });
   menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+  document.querySelectorAll('a[href="#domov"]').forEach(link => {
+    link.addEventListener('click', event => {
+      event.preventDefault();
+      closeMenu();
+      window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+      history.replaceState(null, '', `${location.pathname}${location.search}`);
+    });
+  });
   addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
   addEventListener('resize', () => { if (innerWidth > 900) closeMenu(); }, { passive: true });
 
@@ -89,5 +97,4 @@
     location.href = url;
   });
 })();
-
 
