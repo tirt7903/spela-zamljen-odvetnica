@@ -41,7 +41,7 @@
       const navigationFocused = header?.contains(document.activeElement);
       const onHome = hero && scrollY < hero.offsetHeight - (header?.offsetHeight || 0);
       if (!onHome && !menuOpen && !navigationFocused) header?.classList.add('nav-hidden');
-    }, 2000);
+    }, 1500);
   }
   ['pointermove', 'pointerdown', 'touchstart', 'scroll'].forEach(eventName => {
     addEventListener(eventName, showNavigation, { passive: true });
