@@ -5,6 +5,7 @@
   const bar = document.querySelector('.progress i');
   const toggle = document.querySelector('.toggle');
   const menu = document.querySelector('#menu');
+  const hero = document.querySelector('.hero');
 
   function closeMenu() {
     toggle?.setAttribute('aria-expanded', 'false');
@@ -30,6 +31,25 @@
   });
   addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
   addEventListener('resize', () => { if (innerWidth > 900) closeMenu(); }, { passive: true });
+
+  let navigationTimer;
+  function showNavigation() {
+    header?.classList.remove('nav-hidden');
+    clearTimeout(navigationTimer);
+    navigationTimer = setTimeout(() => {
+      const menuOpen = toggle?.getAttribute('aria-expanded') === 'true';
+      const navigationFocused = header?.contains(document.activeElement);
+      const onHome = hero && scrollY < hero.offsetHeight - (header?.offsetHeight || 0);
+      if (!onHome && !menuOpen && !navigationFocused) header?.classList.add('nav-hidden');
+    }, 2000);
+  }
+  ['pointermove', 'pointerdown', 'touchstart', 'scroll'].forEach(eventName => {
+    addEventListener(eventName, showNavigation, { passive: true });
+  });
+  addEventListener('keydown', showNavigation);
+  header?.addEventListener('focusin', showNavigation);
+  header?.addEventListener('mouseenter', showNavigation);
+  showNavigation();
 
   let ticking = false;
   function updateScroll() {
@@ -97,4 +117,3 @@
     location.href = url;
   });
 })();
-
